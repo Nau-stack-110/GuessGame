@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+      <!-- ======= pngiconshow ====== -->
+    <link rel="icon" type="image/jpg" href="image/banner_2.jpg" />
+    <link rel="apple-touch-icon" href="image/banner_2.jpg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+      <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="css/style.css">
+    <link href="css/font-awesome.css" rel="stylesheet">
+  <style>
+
+    
+  </style>
+  
+  <title>Game over!</title>
+  
+</head>
+<body>
+<div class="wrapper">
+  <div class="home">
+       <header class="header_gameover">Game over!</header>
+    <div class="form">
+        <h3 class="jaime">😭👎<h3>
+             
+        <p id="message">Vous n'avez pas trouver le nombre secret, il est :<span id="secretNumber"></span</p>
+  
+     <div class="btn">
+     
+      <button  onclick="startAgain()">Replay</button>
+      <button id="center_btn"  onclick="viewHistory()">History</button>
+       <button  onclick="backToMenu()">Menu</button>
+     </div>
+   </div>
+  </div>
+</div> 
+
+   <script>
+        // Fonction pour extraire l'intervalle de l'URL
+    function getIntervalFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('interval');
+    }
+    
+    // Fonction pour rediriger vers la page principale avec l'intervalle actuel
+    
+    function startAgain() {
+  const interval = getIntervalFromURL();
+  window.location.href = `guess.html?interval=${encodeURIComponent(interval)}`;
+}
+    
+     function backToMenu() {
+      // Rediriger vers la page du menu (vous pouvez remplacer cela par la page de menu réelle)
+      window.location.href = 'choix_settings.html';
+    }
+      // Fonction pour récupérer le nombre secret depuis l'URL
+    function getSecretFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('secret');
+    }
+    
+    function viewHistory() {
+      // Rediriger vers la page d'historique
+      window.location.href = 'historique.html';
+    }
+
+    // Afficher le nombre secret
+    const secretNumber = getSecretFromURL();
+    document.getElementById('secretNumber').textContent = secretNumber;
+    
+  </script>
+  
+</body>
+</html>

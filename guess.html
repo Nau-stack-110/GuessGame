@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- ======= pngiconshow ====== -->
+    <link rel="icon" type="image/jpg" href="image/banner_2.jpg" />
+    <link rel="apple-touch-icon" href="image/banner_2.jpg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="css/style.css">
+    <link href="css/font-awesome.css" rel="stylesheet">
+  <style>
+
+  </style>
+  <title>Guess Game</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="home">
+     <div class="reochance">
+         <span id="span1" onclick="backToMenu()"><i class="fa fa-chevron-left"></i></span>
+         <span style="color:red;">Chance 💎 <span style="color:#333;font-weight:400;font-size:20px;"class="chance" id="chance"></span></span>
+     </div>
+      <header class="guess">Guess Game</header>
+      <div class="form">
+          <label for="guess" id="guessLabel"></label>
+         <input type="text" id="screen" class="screen" disabled/>
+          
+          <p id="result"></p>
+     <div class="offcanvas-body">
+       <div class="container">
+
+        <!-- Top buttons -->
+        <div class="rows">
+          <input id="ac-button" type="button" class="" onclick="clearScreen()" value="C"/>
+          
+          <input id="del-button" type="button" class="" onclick="DeletePressed()" value="D"/>
+          <input id="zero" type="button" class="" onclick="display('0')" value="0"/>
+        </div>
+
+        <!-- Numerals -->
+        <div class="rows numerals">
+          <!-- Top Row -->
+          <div class="numerals-top">
+            <input id="seven" type="button" class="" onclick="display('7')" value="7"/>
+            <input id="eight" type="button" class="" onclick="display('8')" value="8"/>
+            <input id="nine" type="button" class="" onclick="display('9')" value="9"/>
+          </div>
+          <!-- Middle Row -->
+          <div class="numerals-middle">
+            <input id="four" type="button" class="" onclick="display('4')" value="4"/>
+            <input id="five" type="button" class="" onclick="display('5')" value="5"/>
+            <input id="six" onclick="display('6')" type="button" class="" value="6"/>
+          </div>
+          <!-- Bottom Row -->
+          <div class="numerals-bottom">
+            <input id="one" type="button" class="" onclick="display('1')" value="1"/>
+            <input id="two" type="button" class="" onclick="display('2')" value="2"/>
+            <input id="three" onclick="display('3')" type="button" class="" value="3"/>
+          </div>
+        </div>
+      <button class="btn1" onclick="checkGuess()"><i class="fa fa-send-o"></i></button>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<script>
+function backToMenu() {
+      // Rediriger vers la page du menu (vous pouvez remplacer cela par la page de menu réelle)
+      window.location.href = 'choix_settings.html';
+    }
+
+function DeletePressed() {
+    enteredNumber = enteredNumber.slice(0, -1);
+    document.getElementById("screen").value = enteredNumber;
+  }
+    function clearScreen() {
+    document.getElementById("screen").value = "";
+    enteredNumber = "";
+  }
+
+  function display(value) {
+    enteredNumber += value;
+    document.getElementById("screen").value = enteredNumber;
+  }
+  
+  
+let enteredNumber = "";
+
+function getIntervalFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('interval');
+    }
+
+
+ const urlParams = new URLSearchParams(window.location.search);
+    const selectedInterval = urlParams.get('interval');
+
+let intervalBounds;
+    switch (selectedInterval) {
+      case '0-25':
+        intervalBounds = { min: 0, max: 25 };
+        break;
+      case '0-50':
+        intervalBounds = { min: 0, max: 50 };
+        break;
+      case '0-10':
+        intervalBounds = { min: 0, max: 10 };
+        break;
+        case '0-200':
+       intervalBounds = { min: 0, max: 200 };
+        break;
+        case '0-500':
+        intervalBounds ={ min:0, max: 500 };
+        break;
+        case '0-1000':
+        intervalBounds ={ min:0, max: 1000};
+        break;
+      default:
+    intervalBounds = { min: 0, max: 100 };
+        break;
+    }
+
+
+const secretNumber = Math.floor(Math.random() * (intervalBounds.max - intervalBounds.min - 1)) + intervalBounds.min + 1;
+
+let chances;
+let chancesMax;
+  switch (selectedInterval) {
+    case '0-25':
+      chances = 3;
+      break;
+    case '0-10':
+      chances = 2;
+      break;
+    case '0-50':
+      chances = 5;
+      break;
+      case '0-200':
+      chances = 10;
+      break;
+      case '0-500':
+      chances = 14;
+      break;
+      case '0-1000':
+      chances = 16;
+      break;
+    default:
+      chances = 7;
+      break;
+  }
+
+    // Mettre à jour le label dynamique en fonction de l'intervalle choisi
+    
+    document.getElementById('guessLabel').textContent = `Enter a number between ${intervalBounds.min} and ${intervalBounds.max} :`;
+
+    document.getElementById('chance').innerHTML =`${chances}`;
+  
+
+function checkGuess() {
+      const userGuess = parseInt(enteredNumber);
+
+      if (userGuess > intervalBounds.min && userGuess < intervalBounds.max) {
+        chances--;
+
+        if (userGuess === secretNumber) {
+            
+          localStorage.setItem('wins', Number(localStorage.getItem('wins')) + 1);
+
+          window.location.href = `bravos.html?interval=${encodeURIComponent(selectedInterval)}`;
+        }
+        else if (userGuess < secretNumber) {
+          document.getElementById('result').innerHTML = `Plus petit`;
+             clearScreen();
+             document.getElementById('chance').innerHTML =`${chances}`;
+    
+        } else {
+          document.getElementById('result').innerHTML = `Plus grand`;
+              clearScreen();
+              document.getElementById('chance').innerHTML =`${chances}`;
+    
+        }
+
+        if (chances === 0 && userGuess !== secretNumber) {
+            
+           localStorage.setItem('losses', Number(localStorage.getItem('losses')) + 1);
+
+          // Rediriger vers la page game_over.html en passant le nombre secret
+        window.location.href = `gameover.html?interval=${encodeURIComponent(selectedInterval)}&secret=${secretNumber}`;
+        
+        
+         } 
+      } else {
+        alert(`Please enter a number between ${intervalBounds.min} and ${intervalBounds.max}.`);
+        clearScreen();
+      }
+    }
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- ======= pngiconshow ====== -->
+    <link rel="icon" type="image/jpg" href="image/banner_2.jpg" />
+    <link rel="apple-touch-icon" href="image/banner_2.jpg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="css/style.css">
+    <link href="css/font-awesome.css" rel="stylesheet"/>
+  
+   <title>Historique</title>
+  <style>
+
+  </style>
+</head>
+<body>
+<div class="wrapper">
+   <div class="home">
+       <div class="icon">
+           <i class=" fa fa-chevron-left" onclick="backToMenu()"></i>
+       </div>
+        <header class="header_historique">Historique</header>
+      <div class="form">
+        <div class="history">
+            <p>Nombre de victoires : <span id="wins">0</span></p>
+            <p>Nombre de défaites : <span id="losses">0</span></p>
+            <p>Nombre trouvé du premier coup : <span id="firstGuessWins">0</span></p>
+    
+    
+            <div class="btn">
+              <button  onclick="backToMenu()">Menu</button>
+              <button id="center_btn" onclick="startAgain()">Replay</button>
+              <button  onclick="resetHistory()">Reset</button>
+            </div>  
+          
+        </div>
+
+      </div>
+    </div>  
+    
+</div> 
+
+
+ <script>
+    function backToMenu() {
+      window.location.href = 'choix_settings.html';
+    }
+    function displayStats() {
+      const wins = Number(localStorage.getItem('wins')) || 0;
+      const losses = Number(localStorage.getItem('losses')) || 0;
+      const firstGuessWins = Number(localStorage.getItem('firstGuessWins')) || 0;
+
+      document.getElementById('wins').textContent = wins;
+      document.getElementById('losses').textContent = losses;
+      document.getElementById('firstGuessWins').textContent = firstGuessWins;
+    }
+
+    displayStats();
+
+   function resetHistory() {
+      localStorage.clear();
+      displayStats();
+    } 
+    
+
+</script>
+
+</script>
+</body>
+</html>
